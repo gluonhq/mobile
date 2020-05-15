@@ -43,6 +43,8 @@ jfieldID psi_portID;
 jfieldID psi_localportID;
 jfieldID psi_timeoutID;
 jfieldID psi_trafficClassID;
+jfieldID psi_serverSocketID;
+
 jfieldID psi_fdLockID;
 jfieldID psi_closePendingID;
 
@@ -125,6 +127,8 @@ Java_java_net_PlainSocketImpl_initProto(JNIEnv *env, jclass cls) {
     CHECK_NULL(psi_timeoutID);
     psi_trafficClassID = (*env)->GetFieldID(env, cls, "trafficClass", "I");
     CHECK_NULL(psi_trafficClassID);
+    psi_serverSocketID = (*env)->GetFieldID(env, cls, "serverSocket",
+                         "Ljava/net/ServerSocket;");
     psi_fdLockID = (*env)->GetFieldID(env, cls, "fdLock",
                                       "Ljava/lang/Object;");
     CHECK_NULL(psi_fdLockID);
@@ -153,7 +157,8 @@ static jclass socketExceptionCls;
  * Signature: (ZZ)V */
 JNIEXPORT void JNICALL
 Java_java_net_PlainSocketImpl_socketCreate(JNIEnv *env, jobject this,
-                                           jboolean stream, jboolean isServer) {
+                                           jboolean stream) {
+// changed signature from ZZ to Z so that it works with Java code in 11
     jobject fdObj, ssObj;
     int fd;
     int type = (stream ? SOCK_STREAM : SOCK_DGRAM);
@@ -198,7 +203,8 @@ Java_java_net_PlainSocketImpl_socketCreate(JNIEnv *env, jobject this,
      * If this is a server socket then enable SO_REUSEADDR
      * automatically and set to non blocking.
      */
-    if (isServer) {
+    ssObj = (*env)->GetObjectField(env, this, psi_serverSocketID);
+    if (ssObj != NULL) {
         int arg = 1;
         SET_NONBLOCKING(fd);
         if (NET_SetSockOpt(fd, SOL_SOCKET, SO_REUSEADDR, (char*)&arg,

@@ -61,11 +61,16 @@ class PlainSocketImpl extends AbstractPlainSocketImpl
         }
     }
 
+    native void socketCreate(boolean stream) throws IOException;
+
+/**
+// removed this so the native methods can be used with 11
     void socketCreate(boolean stream) throws IOException {
         socketCreate(stream, isServer);
     }
 
     native void socketCreate(boolean stream, boolean isServer) throws IOException;
+*/
 
     native void socketConnect(InetAddress address, int port, int timeout)
         throws IOException;
