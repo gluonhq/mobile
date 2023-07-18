@@ -39,7 +39,9 @@
 /*
  * Declare library specific JNI_Onload entry if static build
  */
+#ifndef TARGET_IOS
 DEF_STATIC_JNI_OnLoad
+#endif
 
 JNIEXPORT jint JNICALL
 Java_java_util_prefs_FileSystemPreferences_chmod(JNIEnv *env,
