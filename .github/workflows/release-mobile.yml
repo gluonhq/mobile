@@ -28,6 +28,12 @@ jobs:
       - name: Download all build artifacts
         uses: actions/download-artifact@v4
       - name: Check downloads
-        run: ls
+        run: |
+          pwd
+          ls
       - name: Release
         uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            android-linux-aarch64
+            ios-macos-aarch64
