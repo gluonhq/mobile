@@ -1,6 +1,9 @@
 name: 'OpenJDK Mobile Static Release'
 
-on: workflow_dispatch
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
   build-android-linux-aarch64:
@@ -23,10 +26,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Download all build artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
       - name: Check downloads
         run: ls
       - name: Release
         uses: softprops/action-gh-release@v2
-        with:
-          prerelease: true
