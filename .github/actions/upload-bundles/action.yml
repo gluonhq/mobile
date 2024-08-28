@@ -66,7 +66,13 @@ runs:
         else
           echo 'bundles-found=false' >> $GITHUB_OUTPUT
         fi
-        find build/
+        cd build
+        mkdir -p allobjs
+        cd allobjs
+        find .. -name "*.a" -exec ar x {} \;
+        ar rcs ../libjdk.a *.o
+        cd ..
+        rm -rf allobjs
       shell: bash
 
     - name: 'Upload bundles artifact'
@@ -81,6 +87,6 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.platform }}
-        path: build/${{ inputs.platform }}/images/static-libs/
+        path: build/libjdk.a
         retention-days: 1
       if: inputs.platform == 'android-linux-aarch64' || inputs.platform == 'ios-macos-aarch64'
