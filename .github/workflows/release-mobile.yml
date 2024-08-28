@@ -27,13 +27,21 @@ jobs:
     steps:
       - name: Download all build artifacts
         uses: actions/download-artifact@v4
+        with:
+          name: android-linux-aarch64
+          path: ./dist/
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ios-macos-aarch64
+          path: ./dist/
       - name: Check downloads
         run: |
           pwd
-          ls
+          ls -R ./dist/
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            android-linux-aarch64
-            ios-macos-aarch64
+            ./dist/android-linux-aarch64
+            ./dist/ios-macos-aarch64
