@@ -43,7 +43,7 @@ runs:
       id: build-android-ios
       run: |
         cd build/${{ inputs.platform }}
-        make LOG=cmdlines static-libs-image
+        make LOG=cmdlines static-libs
       shell: bash
       if: inputs.platform == 'android-linux-aarch64' || inputs.platform == 'ios-macos-aarch64'
 
