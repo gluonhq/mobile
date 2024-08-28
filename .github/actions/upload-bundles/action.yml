@@ -66,6 +66,7 @@ runs:
         else
           echo 'bundles-found=false' >> $GITHUB_OUTPUT
         fi
+        find build/
       shell: bash
 
     - name: 'Upload bundles artifact'
