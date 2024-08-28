@@ -35,6 +35,11 @@ jobs:
         with:
           name: ios-macos-aarch64
           path: ./dist/ios-macos-aarch64
+      - name: Zip downloaded Android artifact
+        run: |
+          cd ./dist
+          zip -r android-linux-aarch64.zip android-linux-aarch64
+          zip -r ios-macos-aarch64.zip ios-macos-aarch64
       - name: Check downloads
         run: |
           pwd
@@ -43,5 +48,4 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ./dist/android-linux-aarch64/*
-            ./dist/ios-macos-aarch64/*
+            ./dist/*.zip
