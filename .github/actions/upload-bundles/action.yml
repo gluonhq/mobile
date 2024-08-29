@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2022, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2022, 2024, Oracle and/or its affiliates. All rights reserved.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
 # This code is free software; you can redistribute it and/or modify it
@@ -66,6 +66,13 @@ runs:
         else
           echo 'bundles-found=false' >> $GITHUB_OUTPUT
         fi
+        cd build
+        mkdir -p allobjs
+        cd allobjs
+        find .. -name "*.a" -exec ar x {} \;
+        ar rcs ../libjdk.a *.o
+        cd ..
+        rm -rf allobjs
       shell: bash
 
     - name: 'Upload bundles artifact'
@@ -75,3 +82,11 @@ runs:
         path: bundles
         retention-days: 1
       if: steps.bundles.outputs.bundles-found == 'true'
+
+    - name: 'Upload static image artifact'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.platform }}
+        path: build/libjdk.a
+        retention-days: 1
+      if: inputs.platform == 'android-linux-aarch64' || inputs.platform == 'ios-macos-aarch64'
