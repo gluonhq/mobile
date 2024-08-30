@@ -33,14 +33,14 @@ on:
 jobs:
   build-android-linux-aarch64:
     name: android-linux-aarch64
-    uses: ./.github/workflows/build-android-static.yml
+    uses: ./.github/workflows/build-android-linux.yml
     with:
       platform: linux-x64
       gcc-major-version: '10'
 
   build-ios-macos-aarch64:
     name: ios-macos-aarch64
-    uses: ./.github/workflows/build-ios-static.yml
+    uses: ./.github/workflows/build-ios-macos.yml
     with:
       platform: macos-aarch64
       runs-on: 'macos-14'
@@ -60,7 +60,7 @@ jobs:
         with:
           name: ios-macos-aarch64
           path: ./dist/ios-macos-aarch64
-      - name: Zip downloaded Android artifact
+      - name: Zip downloaded artifact
         run: |
           cd ./dist
           zip -r android-linux-aarch64.zip android-linux-aarch64
