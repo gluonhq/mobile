@@ -23,7 +23,7 @@
 # questions.
 #
 
-name: 'OpenJDK Mobile Static Release'
+name: 'OpenJDK Static Release'
 
 on:
   push:
