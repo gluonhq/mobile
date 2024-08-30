@@ -73,7 +73,6 @@ runs:
 
     - name: 'Create libjdk.a'
       run: |
-        find build/
         cd build
         mkdir -p allobjs
         cd allobjs
@@ -90,7 +89,7 @@ runs:
         name: bundles-${{ inputs.platform }}${{ inputs.debug-suffix }}
         path: bundles
         retention-days: 1
-      if: steps.bundles.outputs.bundles-found == 'true'
+      if: steps.bundles.outputs.bundles-found == 'true' || inputs.make-target != 'static-libs'
 
     - name: 'Upload static image artifact'
       uses: actions/upload-artifact@v4
