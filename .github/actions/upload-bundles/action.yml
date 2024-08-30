@@ -73,7 +73,6 @@ runs:
 
     - name: 'Create libjdk.a'
       run: |
-        echo ${{ inputs.debug-suffix }}
         cd build
         mkdir -p allobjs
         cd allobjs
@@ -82,7 +81,14 @@ runs:
         cd ..
         rm -rf allobjs
       shell: bash
-      if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug'
+      if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && !startsWith(inputs.platform, 'windows')
+
+    - name: 'Create libjdk.lib for windows'
+      run: |
+        cd build
+        lib.exe /OUT:libjdk.lib ..\*.lib
+      shell: bash
+      if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && startsWith(inputs.platform, 'windows')
 
     - name: 'Upload bundles artifact'
       uses: actions/upload-artifact@v4
@@ -96,6 +102,6 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.platform }}
-        path: build/libjdk.a
+        path: build/libjdk.*
         retention-days: 1
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug'
