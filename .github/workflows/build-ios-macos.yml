@@ -115,3 +115,4 @@ jobs:
         with:
           platform: ios-macos-aarch64
           debug-suffix: '${{ matrix.suffix }}'
+          make-target: 'static-libs'

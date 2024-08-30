@@ -32,6 +32,9 @@ inputs:
   debug-suffix:
     description: 'File name suffix denoting debug level, possibly empty'
     required: false
+  make-target:
+    description: 'Make target'
+    required: false
 
 runs:
   using: composite
@@ -66,7 +69,11 @@ runs:
         else
           echo 'bundles-found=false' >> $GITHUB_OUTPUT
         fi
-        find .
+      shell: bash
+
+    - name: 'Create libjdk.a'
+      run: |
+        find build/
         cd build
         mkdir -p allobjs
         cd allobjs
@@ -75,6 +82,7 @@ runs:
         cd ..
         rm -rf allobjs
       shell: bash
+      if: inputs.make-target == 'static-libs'
 
     - name: 'Upload bundles artifact'
       uses: actions/upload-artifact@v4
@@ -90,4 +98,4 @@ runs:
         name: ${{ inputs.platform }}
         path: build/libjdk.a
         retention-days: 1
-      if: inputs.platform == 'android-linux-aarch64' || inputs.platform == 'ios-macos-aarch64'
+      if: inputs.make-target == 'static-libs'
