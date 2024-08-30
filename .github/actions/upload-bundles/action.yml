@@ -97,4 +97,4 @@ runs:
         name: ${{ inputs.platform }}
         path: build/libjdk.a
         retention-days: 1
-      if: inputs.make-target == 'static-libs'
+      if: inputs.make-target == 'static-libs' || inputs.debug-suffix != '-debug'
