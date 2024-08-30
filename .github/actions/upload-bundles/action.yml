@@ -85,10 +85,8 @@ runs:
 
     - name: 'Create libjdk.lib for windows'
       run: |
-        # Set up the environment for MSVC tools
-        & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         cd build
-        lib.exe /OUT:libjdk.lib ..\*.lib
+        & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29\bin\HostX64\x64\lib.exe" /OUT:libjdk.lib ..\*.lib
       shell: pwsh
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && startsWith(inputs.platform, 'windows')
 
