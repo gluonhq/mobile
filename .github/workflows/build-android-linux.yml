@@ -135,6 +135,6 @@ jobs:
       - name: 'Upload bundles'
         uses: ./.github/actions/upload-bundles
         with:
-          platform: android-linux-aarch64
+          platform: ${{ inputs.platform }}
           debug-suffix: '${{ matrix.suffix }}'
           make-target: 'static-libs'

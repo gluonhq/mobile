@@ -151,13 +151,12 @@ jobs:
     needs: select
     uses: ./.github/workflows/build-android-linux.yml
     with:
-      platform: linux-x64
+      platform: android-linux-aarch64
       make-target: 'static-libs'
       gcc-major-version: '10'
       debug-levels: '[ "release" ]'
       configure-arguments: ${{ github.event.inputs.configure-arguments }}
       make-arguments: ${{ github.event.inputs.make-arguments }}
-    # The linux-x64 jdk bundle is used as buildjdk for the cross-compile job
     if: needs.select.outputs.android-linux-aarch64 == 'true'
 
   build-ios-macos-aarch64:
@@ -165,7 +164,7 @@ jobs:
     needs: select
     uses: ./.github/workflows/build-ios-macos.yml
     with:
-      platform: macos-aarch64
+      platform: ios-macos-aarch64
       runs-on: 'macos-14'
       make-target: 'static-libs'
       xcode-toolset-version: '14.3.1'
