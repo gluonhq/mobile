@@ -82,7 +82,7 @@ runs:
         cd ..
         rm -rf allobjs
       shell: bash
-      if: inputs.make-target == 'static-libs' || inputs.debug-suffix != '-debug'
+      if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug'
 
     - name: 'Upload bundles artifact'
       uses: actions/upload-artifact@v4
@@ -90,7 +90,7 @@ runs:
         name: bundles-${{ inputs.platform }}${{ inputs.debug-suffix }}
         path: bundles
         retention-days: 1
-      if: steps.bundles.outputs.bundles-found == 'true' || inputs.make-target != 'static-libs'
+      if: steps.bundles.outputs.bundles-found == 'true' && inputs.make-target != 'static-libs'
 
     - name: 'Upload static image artifact'
       uses: actions/upload-artifact@v4
@@ -98,4 +98,4 @@ runs:
         name: ${{ inputs.platform }}
         path: build/libjdk.a
         retention-days: 1
-      if: inputs.make-target == 'static-libs' || inputs.debug-suffix != '-debug'
+      if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug'

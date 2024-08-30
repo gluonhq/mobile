@@ -68,7 +68,7 @@ jobs:
         id: bootjdk
         uses: ./.github/actions/get-bootjdk
         with:
-          platform: ${{ inputs.platform }}
+          platform: macos-aarch64
 
       - name: 'Get JTReg'
         id: jtreg
