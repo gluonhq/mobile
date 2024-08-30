@@ -83,11 +83,16 @@ runs:
       shell: bash
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && !startsWith(inputs.platform, 'windows')
 
+    - name: Verify lib.exe Path
+      run: dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29\bin\HostX64\x64\"
+      shell: pwsh
+      if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && startsWith(inputs.platform, 'windows')
+
     - name: 'Create libjdk.lib for windows'
       run: |
         cd build
-        & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29\bin\HostX64\x64\lib.exe" /OUT:libjdk.lib ..\*.lib
-      shell: pwsh
+        lib.exe /OUT:libjdk.lib ..\*.lib
+      shell: cmd
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && startsWith(inputs.platform, 'windows')
 
     - name: 'Upload bundles artifact'
