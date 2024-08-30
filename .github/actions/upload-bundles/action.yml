@@ -85,6 +85,8 @@ runs:
 
     - name: 'Create libjdk.lib for windows'
       run: |
+        # Set up the environment for MSVC tools
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         cd build
         lib.exe /OUT:libjdk.lib ..\*.lib
       shell: bash
