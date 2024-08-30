@@ -37,7 +37,7 @@ on:
       make-target:
         required: false
         type: string
-        default: 'product-bundles test-bundles'
+        default: 'static-libs'
       debug-levels:
         required: false
         type: string
