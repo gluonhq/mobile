@@ -66,6 +66,7 @@ runs:
         else
           echo 'bundles-found=false' >> $GITHUB_OUTPUT
         fi
+        find .
         cd build
         mkdir -p allobjs
         cd allobjs

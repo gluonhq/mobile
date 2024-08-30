@@ -152,6 +152,7 @@ jobs:
     uses: ./.github/workflows/build-android-linux.yml
     with:
       platform: linux-x64
+      make-target: 'static-libs'
       gcc-major-version: '10'
       debug-levels: '[ "release" ]'
       configure-arguments: ${{ github.event.inputs.configure-arguments }}
@@ -166,6 +167,7 @@ jobs:
     with:
       platform: macos-aarch64
       runs-on: 'macos-14'
+      make-target: 'static-libs'
       xcode-toolset-version: '14.3.1'
       debug-levels: '[ "release" ]'
       configure-arguments: ${{ github.event.inputs.configure-arguments }}
@@ -178,6 +180,7 @@ jobs:
     uses: ./.github/workflows/build-linux.yml
     with:
       platform: linux-x64
+      make-target: 'static-libs'
       gcc-major-version: '10'
       debug-levels: '[ "release" ]'
       configure-arguments: ${{ github.event.inputs.configure-arguments }}
@@ -191,6 +194,7 @@ jobs:
     with:
       platform: macos-x64
       runs-on: 'macos-13'
+      make-target: 'static-libs'
       xcode-toolset-version: '14.3.1'
       debug-levels: '[ "release" ]'
       configure-arguments: ${{ github.event.inputs.configure-arguments }}
@@ -204,6 +208,7 @@ jobs:
     with:
       platform: macos-aarch64
       runs-on: 'macos-14'
+      make-target: 'static-libs'
       xcode-toolset-version: '14.3.1'
       debug-levels: '[ "release" ]'
       configure-arguments: ${{ github.event.inputs.configure-arguments }}
@@ -216,6 +221,7 @@ jobs:
     uses: ./.github/workflows/build-windows.yml
     with:
       platform: windows-x64
+      make-target: 'static-libs'
       msvc-toolset-version: '14.29'
       msvc-toolset-architecture: 'x86.x64'
       debug-levels: '[ "release" ]'
@@ -229,9 +235,9 @@ jobs:
     uses: ./.github/workflows/build-windows.yml
     with:
       platform: windows-aarch64
+      make-target: 'static-libs'
       msvc-toolset-version: '14.29'
       msvc-toolset-architecture: 'arm64'
-      make-target: 'hotspot'
       extra-conf-options: '--openjdk-target=aarch64-unknown-cygwin'
       debug-levels: '[ "release" ]'
       configure-arguments: ${{ github.event.inputs.configure-arguments }}
