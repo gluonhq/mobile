@@ -85,7 +85,7 @@ runs:
 
     - name: Verify lib.exe Path
       run: |
-        dir "C:\Program Files (x86)\Microsoft Visual Studio" /S /P | findstr /i "lib.exe"
+        Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio" -Recurse -Filter "lib.exe" -ErrorAction SilentlyContinue
         dir "C:\Program Files (x86)\Microsoft Visual Studio" /S
       shell: pwsh
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && startsWith(inputs.platform, 'windows')
