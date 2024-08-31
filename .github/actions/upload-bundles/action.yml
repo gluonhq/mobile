@@ -84,7 +84,9 @@ runs:
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && !startsWith(inputs.platform, 'windows')
 
     - name: Verify lib.exe Path
-      run: dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29\bin\HostX64\x64\"
+      run: |
+        dir "C:\Program Files (x86)\Microsoft Visual Studio" /S /P | findstr /i "lib.exe"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio" /S
       shell: pwsh
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && startsWith(inputs.platform, 'windows')
 
