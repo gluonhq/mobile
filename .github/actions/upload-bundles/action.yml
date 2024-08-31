@@ -98,11 +98,12 @@ runs:
           Write-Output "Found lib.exe at: $libPath"
           
           # Construct the command
-          $command = "& `"$libPath`" /OUT:libjdk.lib ..\*.lib"
+          $command = "& `"$libPath`" /OUT:libjdk.lib *.lib"
         
           # Execute the command
           Write-Output "Executing command: $command"
           Invoke-Expression $command
+          ls libjdk.lib
         } else {
           Write-Output "lib.exe not found."
         }
