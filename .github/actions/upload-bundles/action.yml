@@ -85,8 +85,28 @@ runs:
 
     - name: Verify lib.exe Path
       run: |
-        Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio" -Recurse -Filter "lib.exe" -ErrorAction SilentlyContinue
-        dir "C:\Program Files (x86)\Microsoft Visual Studio" /S
+        # Define the root path where to start the search
+        $searchRoot = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC"
+        
+        # Search for lib.exe using a wildcard for the version
+        $libPath = Get-ChildItem -Path $searchRoot -Recurse -Filter "lib.exe" -ErrorAction SilentlyContinue | Where-Object { $_.FullName -like "*14.29*\bin\Hostx64\x64\lib.exe" }
+        
+        # Check if libPath is not empty
+        if ($libPath) {
+        # Store the full path of the first found lib.exe (if there are multiple, you can adjust as needed)
+        $libPath = $libPath[0].FullName
+        Write-Output "Found lib.exe at: $libPath"
+        
+        # Construct the command
+        cd build
+        $command = "& `"$libPath`" /OUT:libjdk.lib ..\*.lib"
+      
+        # Execute the command
+        Write-Output "Executing command: $command"
+          Invoke-Expression $command
+        } else {
+          Write-Output "lib.exe not found."
+        }
       shell: pwsh
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && startsWith(inputs.platform, 'windows')
 
