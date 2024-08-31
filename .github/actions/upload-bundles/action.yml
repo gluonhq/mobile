@@ -102,17 +102,39 @@ runs:
           # Store the full path of the first found lib.exe (if there are multiple, you can adjust as needed)
           $libPath = $libPath[0].FullName
           Write-Output "Found lib.exe at: $libPath"
-          
+        
+          # Change directory to where .lib files are located
+          cd build
+        
+          # Collect all .lib files in the directory and subdirectories
+          $libFiles = Get-ChildItem -Path . -Filter *.lib -Recurse | Select-Object -ExpandProperty FullName
+        
+          # Check if any .lib files were found
+          if ($libFiles.Count -eq 0) {
+            Write-Output "No .lib files found in the specified directory."
+            exit 1
+          }
+        
+          # Prepare the command arguments
+          $arguments = "/OUT:libjdk.lib " + ($libFiles -join " ")
+        
           # Construct the command
-          $command = "& `"$libPath`" /OUT:libjdk.lib *.lib"
+          $command = "& `"$libPath`" $arguments"
         
           # Execute the command
-          cd build
           Write-Output "Executing command: $command"
           Invoke-Expression $command
-          ls libjdk.lib
+        
+          # Check if the output file was created
+          if (Test-Path "libjdk.lib") {
+            Write-Output "Successfully created libjdk.lib"
+          } else {
+            Write-Output "Failed to create libjdk.lib"
+            exit 1
+          }
         } else {
           Write-Output "lib.exe not found."
+          exit 1
         }
       shell: pwsh
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && startsWith(inputs.platform, 'windows')
