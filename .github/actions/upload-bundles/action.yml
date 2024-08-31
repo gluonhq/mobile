@@ -83,6 +83,12 @@ runs:
       shell: bash
       if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && !startsWith(inputs.platform, 'windows')
 
+    - name: 'List all *.lib files'
+      run: |
+        Get-ChildItem -Path .\build -Filter *.lib -Recurse
+      shell: pwsh
+      if: inputs.make-target == 'static-libs' && inputs.debug-suffix != '-debug' && startsWith(inputs.platform, 'windows')
+
     - name: 'Create libjdk.lib for windows'
       run: |
         # Define the root path where to start the search
@@ -101,6 +107,7 @@ runs:
           $command = "& `"$libPath`" /OUT:libjdk.lib *.lib"
         
           # Execute the command
+          cd build
           Write-Output "Executing command: $command"
           Invoke-Expression $command
           ls libjdk.lib
