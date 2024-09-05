@@ -125,7 +125,6 @@ jobs:
           --host=aarch64-linux-android
           --target=aarch64-linux-android
           --with-version-opt=${GITHUB_ACTOR}-${GITHUB_SHA}
-          ${{ matrix.flags }}
           ${{ inputs.extra-conf-options }} ${{ inputs.configure-arguments }} || (
           echo "Dumping config.log:" &&
           cat config.log &&
@@ -145,5 +144,4 @@ jobs:
         uses: ./.github/actions/upload-bundles
         with:
           platform: ${{ inputs.platform }}
-          debug-suffix: '${{ matrix.suffix }}'
           make-target: 'static-libs'

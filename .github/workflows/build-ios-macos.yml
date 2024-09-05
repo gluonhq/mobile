@@ -96,7 +96,6 @@ jobs:
           --with-cups-include=/tmp/cups-2.3.6
           --with-sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
           --with-version-opt=${GITHUB_ACTOR}-${GITHUB_SHA}
-          ${{ matrix.flags }}
           ${{ inputs.extra-conf-options }} ${{ inputs.configure-arguments }} || (
           echo "Dumping config.log:" &&
           cat config.log &&
@@ -114,5 +113,4 @@ jobs:
         uses: ./.github/actions/upload-bundles
         with:
           platform: ${{ inputs.platform }}
-          debug-suffix: '${{ matrix.suffix }}'
           make-target: 'static-libs'
